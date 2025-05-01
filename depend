@@ -1,0 +1,21 @@
+📦 Dependencies
+Make sure you have Python 3.8 or later installed. Install the required packages using the following command:
+
+***************Required Python Libraries******************
+tensorflow – For building and training neural networks (CNN, CGAN)
+
+keras – High-level API for deep learning model building (works with TensorFlow backend)
+
+matplotlib – For visualization of training metrics and results
+
+numpy – For efficient numerical and matrix operations
+
+scikit-learn – For evaluation metrics like accuracy, precision, and confusion matrix
+
+opencv-python – For image preprocessing and filtering
+
+pandas – For structured data handling and analysis
+
+shutil – Used for file operations (part of Python standard library)
+
+faiss-cpu – For similarity search and clustering (used in RAG or dataset expansion)
