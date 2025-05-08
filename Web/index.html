@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lungs-DI</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #0077be, #001f3f, #000c1a);
+      background-size: 400% 400%;
+      animation: oceanFlow 15s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 20px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    @keyframes oceanFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .nav-bar {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .nav-bar a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: color 0.3s, border-bottom 0.3s;
+      padding-bottom: 5px;
+    }
+
+    .nav-bar a:hover {
+      color: #00bcd4;
+      border-bottom: 2px solid #00bcd4;
+    }
+
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: silver;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 2s infinite ease-in-out alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.3; transform: scale(1); }
+      to { opacity: 0.9; transform: scale(1.5); }
+    }
+
+    .container {
+      background-color: #f5f5dc;
+      color: #222;
+      border-radius: 15px;
+      padding: 40px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      text-align: center;
+      z-index: 1;
+      margin-top: 120px;
+    }
+
+    .container h1 {
+      font-size: 2.8em;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .container p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      color: #333;
+      font-weight: 400;
+    }
+
+    /* Upload */
+    .upload-section {
+      margin-top: 20px;
+    }
+
+    .upload-section input[type="file"] {
+      display: none;
+    }
+
+    .upload-label {
+      display: inline-block;
+      background-color: #00bcd4;
+      color: #fff;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .upload-label:hover {
+      background-color: #0097a7;
+    }
+
+    .predict-btn {
+      margin-top: 20px;
+      background-color: #00796b;
+      color: #fff;
+      padding: 12px 25px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .predict-btn:hover {
+      background-color: #00695c;
+    }
+
+    /* Prediction Section */
+    .prediction-section {
+      background-color: #f5f5dc;
+      color: #222;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 700px;
+      width: 100%;
+      margin-top: 30px;
+      margin-bottom: 50px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .prediction-section h2 {
+      font-size: 2.2em;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    #predicted-image {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container, .prediction-section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Stars -->
+  <div class="stars"></div>
+
+  <!-- Navbar -->
+  <div class="nav-bar">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Portfolio</a>
+    <a href="#">Contact</a>
+  </div>
+
+  <!-- Main container -->
+  <div class="container">
+    <h1>Lungs-DI</h1>
+    <p>Select an image to analyze!</p>
+
+    <div class="upload-section">
+      <label for="file-upload" class="upload-label">Upload Image</label>
+      <input type="file" id="file-upload" accept="image/*">
+    </div>
+
+    <button id="predict-btn" class="predict-btn">Predict</button>
+  </div>
+
+  <!-- Prediction section -->
+  <div class="prediction-section">
+    <h2>PREDICTION</h2>
+    <img id="predicted-image" src="" alt="Predicted Output">
+  </div>
+
+  <script>
+    // Stars animation
+    const starsContainer = document.querySelector('.stars');
+    for (let i = 0; i < 150; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+      starsContainer.appendChild(star);
+    }
+
+    // Upload and Predict
+    const fileInput = document.getElementById('file-upload');
+    const predictBtn = document.getElementById('predict-btn');
+    const predictedImage = document.getElementById('predicted-image');
+    let selectedFile = null;
+
+    fileInput.addEventListener('change', (e) => {
+      selectedFile = e.target.files[0];
+      if (selectedFile) {
+        predictBtn.style.display = 'inline-block';
+      }
+    });
+
+    predictBtn.addEventListener('click', () => {
+      if (!selectedFile) {
+        alert('Please upload an image first!');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())  // <--- expecting JSON now
+    .then(data => {
+      if (data.prediction) {
+        predictionSection.textContent = `Prediction: ${data.prediction}`;
+        predictedImage.style.display = 'none'; // Hide the image if any
+      } else {
+        predictionSection.textContent = 'Prediction: Not available';
+      }
+    })
+      .catch(error => {
+        console.error('Error during prediction:', error);
+      });
+    });
+  </script>
+
+</body>
+</html>
